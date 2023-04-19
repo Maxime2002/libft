@@ -12,53 +12,45 @@
 
 #include"libft.h"
 
-int	ft_len(int n)
+static int	count_nb(int n)
 {
-	int	len;
+	int	t;
 
-	len = 0;
-	if (n == 0)
-		return (1);
-	if (n == -2147483648)
-		return (11);
-	if (n < 0)
+	t = 0;
+	if (n <= 0)
+		t++;
+	while (n != 0)
 	{
-		n = -n;
-		len++;
+		n /= 10;
+		t++;
 	}
-	while (n > 0)
-	{
-		n = n / 10;
-		len++;
-	}
-	return (len);
+	return (t);
 }
 
 char	*ft_itoa(int n)
 {
+	char	*dest;
 	int		i;
-	char	*str;
+	long	nb;
 
-	if (n == -2147483648)
-	{
-		return (ft_strdup("-2147483648"));
-	}
-	i = ft_len(n);
-	str = malloc (sizeof (char) * (i + 1));
-	if (str == NULL)
+	i = count_nb(n) - 1;
+	nb = n;
+	dest = malloc(sizeof(char) * (count_nb(n) + 1));
+	if (!dest)
 		return (NULL);
-	if (n == 0)
-		return (ft_strdup("0"));
-	str[i--] = '\0';
-	if (n < 0)
+	if (nb < 0)
 	{
-		str[0] = '-';
-		n = -n;
+		dest[0] = '-';
+		nb = -nb;
 	}
-	while (n > 0)
+	if (nb == 0)
+		dest[0] = '0';
+	while (nb != 0)
 	{
-		str[i--] = (n % 10) + '0';
-		n = n / 10;
+		dest[i] = (nb % 10) + '0';
+		i--;
+		nb /= 10;
 	}
-	return (str);
+	dest[count_nb(n)] = '\0';
+	return (dest);
 }

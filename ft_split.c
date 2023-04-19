@@ -12,70 +12,100 @@
 
 #include"libft.h"
 
-static size_t	ft_count_words(char const *s, char c)
+static int	ft_count_words(const char *s, char c)
 {
-	size_t	i;
-	size_t	j;
+	int	i;
+	int	res;
 
 	i = 0;
-	j = 0;
-	while (*s)
+	res = 0;
+	if (s[0] != c && s[0])
+		res++;
+	i++;
+	while (s[i])
 	{
-		if (*s != c && j == 0)
-		{
-			j = 1;
+		while (s[i] && s[i] == c)
 			i++;
-		}
-		else if (*s == c)
-			j = 0;
-		s++;
+		if (s[i] != c && s[i - 1] == c && s[i] != '\0')
+			res++;
+		if (s[i])
+			i++;
 	}
-	return (i);
+	return (res);
 }
 
-static char	*ft_mal_word(char const *s, size_t start, size_t end)
+static char	**ini_tab(char **dest, const char *s, char c)
 {
-	size_t	i;
-	char	*word;
+	int	i;
+	int	res;
+	int	j;
 
-	word = malloc(sizeof (char) * (end - start + 1));
-	if (word == NULL)
-		return (NULL);
+	j = 0;
 	i = 0;
-	while (start < end)
+	res = 0;
+	while (s[i])
 	{
-		word[i] = s[start];
-		i++;
-		start++;
+		while (s[i] && s[i] == c)
+			i++;
+		while (s[i] && s[i] != c)
+		{
+			res++;
+			i++;
+			if (s[i] == c || !s[i])
+			{
+				dest[j] = malloc(sizeof(char) * (res + 1));
+				res = 0;
+				j++;
+			}
+		}
 	}
-	word[i] = '\0';
-	return (word);
+	dest[j] = NULL;
+	return (dest);
+}
+
+static char	**fil_tab(char **dest, const char *s, char c)
+{
+	int	i;
+	int	res;
+	int	j;
+
+	j = 0;
+	i = 0;
+	res = 0;
+	while (s[i])
+	{
+		while (s[i] && s[i] == c)
+			i++;
+		while (s[i] != c && s[i])
+		{
+			dest[j][res] = s[i];
+			res++;
+			i++;
+			if (s[i] == c || !s[i])
+			{
+				dest[j][res] = '\0';
+				res = 0;
+				j++;
+			}
+		}
+	}
+	return (dest);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	size_t	i;
-	int		j;
-	size_t	nb;
-	char	**tab;
+	char	**dest;
 
-	tab = malloc (sizeof (char *) * (ft_count_words(s, c) + 1));
-	if (tab == NULL)
-		return (NULL);
-	nb = 0;
-	i = 0;
-	j = -1;
-	while (i <= ft_strlen(s))
+	if (s == NULL || s[0] == '\0')
 	{
-		if (s[i] != c && j < 0)
-			j = i;
-		else if ((s[i] == c || i == ft_strlen(s)) && j >= 0)
-		{
-			tab[nb++] = ft_mal_word(s, j, i);
-			j = -1;
-		}
-		i++;
+		dest = malloc(sizeof(char *) * 1);
+		dest[0] = NULL;
+		return (dest);
 	}
-	tab[nb] = '\0';
-	return (tab);
+	dest = malloc(sizeof(char *) * (ft_count_words(s, c) + 1));
+	if (!dest)
+		return (NULL);
+	dest = ini_tab(dest, s, c);
+	dest = fil_tab(dest, s, c);
+	return (dest);
 }

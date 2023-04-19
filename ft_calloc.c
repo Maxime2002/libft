@@ -14,13 +14,13 @@
 
 void	*ft_calloc(size_t nmemb, size_t size)
 {
-	void	*str;
+	char	*dest;
 
-	if (65535 / nmemb < size)
+	if (nmemb == 0 || size == 0)
+		return (malloc(0));
+	dest = malloc(nmemb * size);
+	if (!dest)
 		return (NULL);
-	str = malloc (nmemb * size);
-	if (str == NULL)
-		return (NULL);
-	ft_bzero(str, (nmemb * size));
-	return (str);
+	ft_bzero((unsigned char *)dest, nmemb * size);
+	return (dest);
 }
