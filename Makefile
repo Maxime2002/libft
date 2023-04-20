@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: mlangloi <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/04/13 22:23:22 by mlangloi          #+#    #+#              #
-#    Updated: 2023/04/16 16:21:04 by mlangloi         ###   ########.fr        #
+#    Created: 2023/04/20 14:34:17 by mlangloi          #+#    #+#              #
+#    Updated: 2023/04/20 14:34:22 by mlangloi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,78 +17,75 @@ CFLAGS = -Wall -Wextra -Werror
 AR = ar rcs
 RM = rm -f
 
-FILES = ft_memset \
-		ft_bzero \
-		ft_memcpy \
-		ft_memchr \
-		ft_memcmp \
-		ft_strlen \
-		ft_strlcpy \
-		ft_strlcat \
-		ft_strchr \
-		ft_strrchr \
-		ft_strncmp \
-		ft_atoi \
-		ft_isalpha \
-		ft_isdigit \
-		ft_isalnum \
-		ft_isascii \
-		ft_isprint \
-		ft_toupper \
-		ft_tolower \
-		ft_calloc \
-		ft_strdup \
-		ft_substr \
-		ft_memmove \
-		ft_strnstr \
-		ft_putchar_fd \
-		ft_putstr_fd \
-		ft_putendl_fd \
-		ft_putnbr_fd \
-		ft_strjoin \
-		ft_strtrim \
-		ft_split \
-		ft_itoa \
-		ft_strmapi \
-		ft_striteri \
+SRCS = ft_memset.c \
+		ft_bzero.c \
+		ft_memcpy.c \
+		ft_memchr.c \
+		ft_memcmp.c \
+		ft_strlen.c \
+		ft_strlcpy.c \
+		ft_strlcat.c \
+		ft_strchr.c \
+		ft_strrchr.c \
+		ft_strncmp.c \
+		ft_atoi.c \
+		ft_isalpha.c \
+		ft_isdigit.c \
+		ft_isalnum.c \
+		ft_isascii.c \
+		ft_isprint.c \
+		ft_toupper.c \
+		ft_tolower.c \
+		ft_calloc.c \
+		ft_strdup.c \
+		ft_substr.c \
+		ft_memmove.c \
+		ft_strnstr.c \
+		ft_putchar_fd.c \
+		ft_putstr_fd.c \
+		ft_putendl_fd.c \
+		ft_putnbr_fd.c \
+		ft_strjoin.c \
+		ft_strtrim.c \
+		ft_split.c \
+		ft_itoa.c \
+		ft_strmapi.c \
+		ft_striteri.c \
 
-FILES_B =	ft_lstnew \
-		ft_lstadd_front \
-		ft_lstsize \
-		ft_lstlast \
-		ft_lstadd_back \
-		ft_lstdelone \
-		ft_lstclear \
-		ft_lstiter \
-		ft_lstmap \
-
-SRCS_DIR = ./
-SRCS = $(addprefix $(SRCS_DIR), $(addsuffix .c, $(FILES)))
-SRCS_B = $(addprefix $(SRCS_DIR), $(addsuffix .c, $(FILES_B)))
-
-OBJS_DIR = ./
-OBJS = $(addprefix $(OBJS_DIR), $(addsuffix .o, $(FILES)))
-OBJS_B = $(addprefix $(OBJS_DIR), $(addsuffix .o, $(FILES_B)))
+BONUS  =	ft_lstnew.c \
+		ft_lstadd_front.c \
+		ft_lstsize.c \
+		ft_lstlast.c \
+		ft_lstadd_back.c \
+		ft_lstdelone.c \
+		ft_lstclear.c \
+		ft_lstiter.c \
+		ft_lstmap.c \
 
 
-.c.o: $(SRCS)
-	$(CC) $(CFLAGS) -c -o $@ $<
 
-$(NAME): $(OBJS)
-	$(AR) $@ $^
 
-bonus: $(OBJS_B)
-	$(AR) $(NAME) $^
+OBJS =	${SRCS:.c=.o}
 
-all: $(NAME)
+BONUSOBJS	= ${BONUS:.c=.o}
+
+.c.o:
+			$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
+
+$(NAME): ${OBJS}
+		$(AR) $(NAME) ${OBJS}
+
+all:	${NAME}
 
 clean:
-	$(RM) $(OBJS) $(OBJS_B)
+		${RM} ${OBJS} ${BONUSOBJS}
 
-fclean: clean
-	$(RM) $(NAME)
+fclean:	clean
+		rm -f ${NAME}
 
-re: clean all
+re:	fclean all
 
-.PHONY: bonus all clean fclean re
+bonus : ${OBJS} ${BONUSOBJS}
+		${AR} ${NAME} ${OBJS} ${BONUSOBJS}
 
+.PHONY: all clean fclean re
