@@ -21,6 +21,8 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 	char	*nlittle;
 
 	i = 0;
+	if ((!big || !little) && len == 0)
+		return (NULL);
 	nbig = (char *)big;
 	nlittle = (char *)little;
 	count = ft_strlen(nlittle);

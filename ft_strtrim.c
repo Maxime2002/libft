@@ -6,7 +6,7 @@
 /*   By: mlangloi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 21:36:41 by mlangloi          #+#    #+#             */
-/*   Updated: 2023/04/14 22:25:59 by mlangloi         ###   ########.fr       */
+/*   Updated: 2023/04/21 14:57:32 by mlangloi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,26 @@
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	size_t	len;
-	char	*begin;
-	char	*end;
-	char	*trim;
-	size_t	trim_len;
+	char	*dest;
+	int		i;
+	int		j;
+	int		res;
 
-	len = ft_strlen(s1);
-	begin = (char *)s1;
-	end = (char *)s1 + len - 1;
-	while (*begin && ft_strchr(set, *begin) != NULL)
-		begin++;
-	while (end > begin && ft_strchr(set, *end) != NULL)
-		end--;
-	trim_len = end - begin + 1;
-	trim = malloc (sizeof (char) * (trim_len + 1));
-	if (trim == NULL)
+	if (!s1 || !set)
 		return (NULL);
-	len = 0;
-	while (len < trim_len)
-	{
-		trim[len] = begin[len];
-		len++;
-	}
-	trim[len] = '\0';
-	return (trim);
+	i = 0;
+	j = ft_strlen(s1) - 1;
+	while (s1[i] && ft_strchr(set, s1[i]))
+		i++;
+	while (j >= 0 && ft_strchr(set, s1[j]))
+		j--;
+	if (i > j)
+		res = 0;
+	else
+		res = (j - i) + 1;
+	dest = malloc(sizeof(char) * (res + 1));
+	if (!dest)
+		return (NULL);
+	ft_strlcpy(dest, (s1 + i), res + 1);
+	return (dest);
 }

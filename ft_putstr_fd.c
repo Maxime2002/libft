@@ -6,7 +6,7 @@
 /*   By: mlangloi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 16:42:15 by mlangloi          #+#    #+#             */
-/*   Updated: 2023/04/14 16:45:11 by mlangloi         ###   ########.fr       */
+/*   Updated: 2023/04/21 14:44:39 by mlangloi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	ft_putstr_fd(char *s, int fd)
 {
 	int	i;
 
+	if (!s)
+		return ;
 	i = 0;
 	while (s[i])
 	{
